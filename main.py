@@ -1,20 +1,21 @@
 #********************************************************#
-#  Project Title:    HANGMAN							 #
-#  App Version:      1.02								 #
-#  Coder:            Jim "Kodegero" Arriesgado			 #
-#  Update Started:   October 25, 2020					 #
-#  Update Finished:  October 25, 2020					 #
+#  Project Title:    HANGMAN                             #
+#  App Version:      1.03                                #
+#  Coder:            Jim C. Arriesgado a.k.a "Kodegero"  #
+#  Update Started:   October 23, 2020                    #
+#  Update Finished:  October 23, 2020                    #
 #********************************************************#
 
 # UPDATE NOTES:
-# Enhance UI, converting list_hidden from list into string separated by spaces
+# Add new feature, set the difficulty level of the game
 
 # Import Modules
 import random
 
 # Declare variables needed
-word_archive = ["apple", "river", "country", "support", "courage"]
-att_count = 5
+list_easy = ["apple", "river", "country", "support", "courage"]
+list_average = ["commotion", "geography", "expenses", "migration", "planning"]
+list_hard = ["extravagance", "sovereign", "inflammation", "catacombs", "disagreement"]
 word_display = ""
 
 
@@ -26,15 +27,39 @@ def hidden_str(list_hidden1):
     return word_display1
 
 
-# Choose a random word from given list
-word_str = word_archive[random.randrange(len(word_archive))]
+def diff_level(user_level):
+    if user_level.lower() == "easy":
+        return list_easy[random.randrange(len(list_easy))]
+    elif user_level.lower() == "average":
+        return list_average[random.randrange(len(list_average))]
+    elif user_level.lower() == "hard":
+        return list_hard[random.randrange(len(list_hard))]
+
+
+def user_att(user_level2):
+    if user_level2.lower() == "easy":
+        return 7
+    elif user_level2.lower() == "average":
+        return 5
+    elif user_level2.lower() == "hard":
+        return 3
+
+
+# Choose a random word based on the difficulty level given by the user
+user_diff = input('''
+Please choose a difficulty level.
+Easy - Average - Hard : ''')
+word_str = diff_level(user_diff)
+
+# Set the number of attempts based on the difficulty given by the user
+att_count = user_att(user_diff)
 
 # Convert word into list
 word_list = list(word_str)
 
 # Initialize hidden list
 list_hidden = []
-for i in word_list:
+for i in range(len(word_list)):
     list_hidden.append("_")
 
 # Convert hidden_list from list to string
