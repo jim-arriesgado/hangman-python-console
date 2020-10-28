@@ -1,13 +1,13 @@
 #********************************************************#
-#  Project Title:    HANGMAN                             #
-#  App Version:      1.01                                #
-#  Coder:            Jim "Kodegero" Arriesgado           #
-#  Update Started:  October 24, 2020                     #
-#  Update Finished: October 24, 2020                     #
+#  Project Title:    HANGMAN							 #
+#  App Version:      1.02								 #
+#  Coder:            Jim "Kodegero" Arriesgado			 #
+#  Update Started:   October 25, 2020					 #
+#  Update Finished:  October 25, 2020					 #
 #********************************************************#
 
 # UPDATE NOTES:
-# Added new feature, giving a random word from a given list
+# Enhance UI, converting list_hidden from list into string separated by spaces
 
 # Import Modules
 import random
@@ -15,6 +15,16 @@ import random
 # Declare variables needed
 word_archive = ["apple", "river", "country", "support", "courage"]
 att_count = 5
+word_display = ""
+
+
+# Define functions
+def hidden_str(list_hidden1):
+    word_display1 = ""
+    for i1 in range(len(list_hidden1)):
+        word_display1 = word_display1 + " " + list_hidden1[i1]
+    return word_display1
+
 
 # Choose a random word from given list
 word_str = word_archive[random.randrange(len(word_archive))]
@@ -27,13 +37,16 @@ list_hidden = []
 for i in word_list:
     list_hidden.append("_")
 
+# Convert hidden_list from list to string
+word_display = hidden_str(list_hidden)
+
 # Game loop
 while "_" in list_hidden:
     # Ask for user input
     user_guess = input(f'''
 Attempts remaining: {att_count}
 
-{list_hidden}
+{word_display}
 
 Guess a letter: ''')
 
@@ -48,6 +61,9 @@ Guess a letter: ''')
             for i in range(len(word_list)):
                 if user_guess == word_list[i]:
                     list_hidden[i] = user_guess
+
+            # Convert hidden_list from list to string
+            word_display = hidden_str(list_hidden)
 
         else:
 
@@ -70,6 +86,10 @@ Guess a letter: ''')
             break
 
 else:
-    print('''
+    print(f'''
+    Congratulations!
     YOU WON...
-    Congratulations! You guessed it right.''')
+
+    The word is: {word_display}
+
+    You guessed it right.''')
