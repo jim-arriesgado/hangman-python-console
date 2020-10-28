@@ -1,22 +1,27 @@
 #********************************************************#
 #  Project Title:    HANGMAN                             #
-#  App Version:      1.03                                #
-#  Coder:            Jim C. Arriesgado a.k.a "Kodegero"  #
-#  Update Started:   October 23, 2020                    #
-#  Update Finished:  October 23, 2020                    #
+#  App Version:      1.04                                #
+#  Coder:            Jim "Kodegero" Arriesgado           #
+#  Update Started:   October 27, 2020                    #
+#  Update Finished:  October 28, 2020                    #
 #********************************************************#
 
 # UPDATE NOTES:
-# Add new feature, set the difficulty level of the game
+# Add new feature, create a play again loop
+# Add title screen and credits on game exit with new variables
 
 # Import Modules
 import random
 
 # Declare variables needed
+app_version = "1.04"
+proj_started = "October 23, 2020"
+last_update = "October 28, 2020"
 list_easy = ["apple", "river", "country", "support", "courage"]
 list_average = ["commotion", "geography", "expenses", "migration", "planning"]
 list_hard = ["extravagance", "sovereign", "inflammation", "catacombs", "disagreement"]
 word_display = ""
+game_over = False
 
 
 # Define functions
@@ -45,76 +50,118 @@ def user_att(user_level2):
         return 3
 
 
-# Choose a random word based on the difficulty level given by the user
-user_diff = input('''
-Please choose a difficulty level.
-Easy - Average - Hard : ''')
-word_str = diff_level(user_diff)
+# Show title screen once
+input(f'''
+=====================================
+        WELCOME to HANGMAN {app_version}
+-------------------------------------
+              =======
+              ||    |
+              ||    O
+              ||
+              ||
+              ||
+              ||
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          Coded by Kodegero
+=====================================
 
-# Set the number of attempts based on the difficulty given by the user
-att_count = user_att(user_diff)
+Press Enter to start game...''')
 
-# Convert word into list
-word_list = list(word_str)
+# Main game loop
+while not game_over:
 
-# Initialize hidden list
-list_hidden = []
-for i in range(len(word_list)):
-    list_hidden.append("_")
+    # Choose a random word based on the difficulty level given by the user
+    user_diff = input('''
+    Please choose a difficulty level.
+    Easy - Average - Hard : ''')
+    word_str = diff_level(user_diff)
 
-# Convert hidden_list from list to string
-word_display = hidden_str(list_hidden)
+    # Set the number of attempts based on the difficulty given by the user
+    att_count = user_att(user_diff)
 
-# Game loop
-while "_" in list_hidden:
-    # Ask for user input
-    user_guess = input(f'''
-Attempts remaining: {att_count}
+    # Convert word into list
+    word_list = list(word_str)
 
-{word_display}
+    # Initialize hidden list
+    list_hidden = []
+    for i in range(len(word_list)):
+        list_hidden.append("_")
 
-Guess a letter: ''')
+    # Convert hidden_list from list to string
+    word_display = hidden_str(list_hidden)
 
-    # Check if user input exist in word _list
-    if user_guess in word_list:
+    # User guessing loop
+    while "_" in list_hidden:
+        # Ask for user input
+        user_guess = input(f'''
+    Attempts remaining: {att_count}
 
-        # Check if user input already exist in the list
-        if user_guess not in list_hidden:
+    {word_display}
 
-            # Check if user input is the same as the character in every index
-            # If not, assign "_"
-            for i in range(len(word_list)):
-                if user_guess == word_list[i]:
-                    list_hidden[i] = user_guess
+    Guess a letter: ''')
 
-            # Convert hidden_list from list to string
-            word_display = hidden_str(list_hidden)
+        # Check if user input exist in word _list
+        if user_guess in word_list:
+
+            # Check if user input already exist in the list
+            if user_guess not in list_hidden:
+
+                # Check if user input is the same as the character in every index
+                # If not, assign "_"
+                for i in range(len(word_list)):
+                    if user_guess == word_list[i]:
+                        list_hidden[i] = user_guess
+
+                # Convert hidden_list from list to string
+                word_display = hidden_str(list_hidden)
+
+            else:
+
+                # Print message
+                print("Letter is already revealed.")
 
         else:
 
             # Print message
-            print("Letter is already revealed.")
+            print("Sorry, letter NOT FOUND!")
+
+            # Deduct 1 point from att_count
+            att_count -= 1
+
+            # Check if att_count equals to zero
+            if att_count == 0:
+                print('''
+                GAME OVER...
+                Sorry, You have used all your chances.''')
+                break
 
     else:
+        print(f'''
+        Congratulations!
+        YOU WON...
 
-        # Print message
-        print("Sorry, letter NOT FOUND!")
+        The word is: {word_display}
 
-        # Deduct 1 point from att_count
-        att_count -= 1
+        You guessed it right.''')
 
-        # Check if att_count equals to zero
-        if att_count == 0:
-            print('''
-            GAME OVER...
-            Sorry, You have used all your chances.''')
-            break
+    # Ask user if wants to play again
+    play_again = input("Do you want to play again? Y or N: ")
+    if play_again.lower() == "y":
+        game_over = False
+    elif play_again.lower() == "n":
+        game_over = True
 
 else:
-    print(f'''
-    Congratulations!
-    YOU WON...
+    input(f'''
+    ==========================================================
+    #  Project Title:    Hangman Game                        #
+    #  Coder:            Jim "Kodegero" Arriesgado           #
+    #  App Version:      {app_version}                                #
+    #  Project Started:  {proj_started}                    #
+    #  Last Updated:     {last_update}                    #
+    ==========================================================
 
-    The word is: {word_display}
+                      Thank You for Playing!!!
 
-    You guessed it right.''')
+    Press Enter to exit...''')
