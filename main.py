@@ -1,14 +1,23 @@
 #********************************************************#
-#  Project Title:    HANGMAN							 #
-#  App Version:      1.00								 #
-#  Coder:            Jim "Kodegero" Arriesgado			 #
-#  Project Started:  October 23, 2020					 #
-#  Project Finished: October 23, 2020					 #
+#  Project Title:    HANGMAN                             #
+#  App Version:      1.01                                #
+#  Coder:            Jim "Kodegero" Arriesgado           #
+#  Update Started:  October 24, 2020                     #
+#  Update Finished: October 24, 2020                     #
 #********************************************************#
 
+# UPDATE NOTES:
+# Added new feature, giving a random word from a given list
+
+# Import Modules
+import random
+
 # Declare variables needed
-word_str = "apple"
-att_count = 3
+word_archive = ["apple", "river", "country", "support", "courage"]
+att_count = 5
+
+# Choose a random word from given list
+word_str = word_archive[random.randrange(len(word_archive))]
 
 # Convert word into list
 word_list = list(word_str)
