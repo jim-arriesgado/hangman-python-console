@@ -1,22 +1,21 @@
 #********************************************************#
 #  Project Title:    HANGMAN                             #
-#  App Version:      1.05                                #
+#  App Version:      1.06                                #
 #  Coder:            Jim "Kodegero" Arriesgado           #
 #  Update Started:   October 28, 2020                    #
-#  Update Finished:  October 28, 2020                    #
+#  Update Finished:  October 29, 2020                    #
 #********************************************************#
 
 # UPDATE NOTES:
-# Enhance user input interface
-# Add new feature, show all guessed letters
+# Revise a feature, only show wrong guessed letters and no repeat
 
 # Import Modules
 import random
 
 # Declare variables needed
-app_version = "1.05"
+app_version = "1.06"
 proj_started = "October 23, 2020"
-last_update = "October 28, 2020"
+last_update = "October 29, 2020"
 list_easy = ["apple", "river", "country", "support", "courage"]
 list_average = ["commotion", "geography", "expenses", "migration", "planning"]
 list_hard = ["extravagance", "sovereign", "inflammation", "catacombs", "disagreement"]
@@ -54,9 +53,11 @@ def user_att(user_level2):  # Assign number of attempts based on user difficulty
 
 def append_guessed_letters(letter_given, guessed_letters1):  # Append current guessed letter and convert it into string
     guessed_letters1.append(letter_given)
+    guessed_letters_set = set(guessed_letters1)
+    guessed_letters_list = list(guessed_letters_set)
     guessed_letters_str1 = ""
-    for i2 in range(len(guessed_letters1)):
-        guessed_letters_str1 = guessed_letters_str1 + guessed_letters1[i2] + ", "
+    for i2 in range(len(guessed_letters_list)):
+        guessed_letters_str1 = guessed_letters_str1 + guessed_letters_list[i2] + ", "
     return guessed_letters_str1
 
 
@@ -143,7 +144,10 @@ Guess a Letter: ''')
             else:
 
                 # Print message
-                print("Letter is already revealed.")
+                print('''
+
+
+        <<<<< Letter is already revealed. >>>>>''')
 
         else:
 
@@ -180,6 +184,7 @@ Guess a Letter: ''')
     if play_again.lower() == "y":
         game_over = False
         guessed_letters = []  # Reset value of guessed_letter
+        guessed_letters_str = ""
     elif play_again.lower() == "n":
         game_over = True
 
