@@ -1,19 +1,19 @@
-# ********************************************************#
+#********************************************************#
 #  Project Title:    HANGMAN                             #
-#  App Version:      1.08                                #
+#  App Version:      1.09                                #
 #  Coder:            Jim "Kodegero" Arriesgado           #
 #  Update Started:   October 29, 2020                    #
 #  Update Finished:  October 29, 2020                    #
-# ********************************************************#
+#********************************************************#
 
 # UPDATE NOTES:
-# Enhance UX, add image display for win and loss
+# Enhance UX, add image display for game progress
 
 # Import Modules
 import random
 
 # Declare variables needed
-app_version = "1.08"
+app_version = "1.09"
 proj_started = "October 23, 2020"
 last_update = "October 29, 2020"
 list_easy = ["apple", "river", "country", "support", "courage"]
@@ -25,6 +25,7 @@ guessed_letters = []
 guessed_letters_str = ""
 win_count = 0
 loss_count = 0
+hangman = ""
 
 
 # Define functions
@@ -63,6 +64,102 @@ def append_guessed_letters(letter_given, guessed_letters1):  # Append current gu
     return guessed_letters_str1
 
 
+def current_img(current_diff):  # Show image based on game progress
+    image_01 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||                                   L(_)
+ ||                                     |\\
+ ||                                    / \\'''
+
+    image_02 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||                              (_)
+ ||                              /|J
+ ||                              / \\'''
+
+    image_03 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||                          (_)
+ ||                          V|\\
+ ||                          / \\'''
+
+    image_04 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||                    \\(_)
+ ||                      |>
+ ||                     / \\'''
+
+    image_05 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||               (_)/
+ ||               <|
+ ||               / \\'''
+
+    image_06 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||         (_)
+ ||         /|\\
+ ||         / \\'''
+    image_07 = '''
+ =======
+ ||    |
+ ||    O
+ ||
+ ||   (_)
+ ||   <|>
+ ||   / \\'''
+
+    # Evaluate what image to display
+    if current_diff == "hard" and att_count == 3:
+        return image_01
+    elif current_diff == "hard" and att_count == 2:
+        return image_03
+    elif current_diff == "hard" and att_count == 1:
+        return image_05
+    elif current_diff == "average" and att_count == 5:
+        return image_01
+    elif current_diff == "average" and att_count == 4:
+        return image_02
+    elif current_diff == "average" and att_count == 3:
+        return image_03
+    elif current_diff == "average" and att_count == 2:
+        return image_04
+    elif current_diff == "average" and att_count == 1:
+        return image_05
+    elif current_diff == "easy" and att_count == 7:
+        return image_01
+    elif current_diff == "easy" and att_count == 6:
+        return image_02
+    elif current_diff == "easy" and att_count == 5:
+        return image_03
+    elif current_diff == "easy" and att_count == 4:
+        return image_04
+    elif current_diff == "easy" and att_count == 3:
+        return image_05
+    elif current_diff == "easy" and att_count == 2:
+        return image_06
+    elif current_diff == "easy" and att_count == 1:
+        return image_07
+
+
 # Show title screen and ask for player name
 player_name = input(f'''
 =====================================
@@ -93,6 +190,9 @@ while not game_over:
     # Set the number of attempts based on the difficulty given by the user
     att_count = user_att(user_diff)
 
+    # Initialize image display for game progress
+    hangman = current_img(user_diff)
+
     # Convert word into list
     word_list = list(word_str)
 
@@ -117,7 +217,8 @@ while not game_over:
 Player: {player_name}
 Win: {win_count}    <<||>>     Loss: {loss_count}
 
-
+{hangman}
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 What is the hidden word?
 **************************
 ===>   {word_display}
@@ -164,6 +265,9 @@ Guess a Letter: ''')
 
             # Deduct 1 point from att_count
             att_count -= 1
+
+            # Set image display for game progress
+            hangman = current_img(user_diff)
 
             # Update guessed_letters
             guessed_letters_str = append_guessed_letters(user_guess, guessed_letters)
