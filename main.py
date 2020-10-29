@@ -1,19 +1,19 @@
 #********************************************************#
 #  Project Title:    HANGMAN                             #
-#  App Version:      1.06                                #
+#  App Version:      1.07                                #
 #  Coder:            Jim "Kodegero" Arriesgado           #
-#  Update Started:   October 28, 2020                    #
+#  Update Started:   October 29, 2020                    #
 #  Update Finished:  October 29, 2020                    #
 #********************************************************#
 
 # UPDATE NOTES:
-# Revise a feature, only show wrong guessed letters and no repeat
+# Add a feature, set player name and win-loss score
 
 # Import Modules
 import random
 
 # Declare variables needed
-app_version = "1.06"
+app_version = "1.07"
 proj_started = "October 23, 2020"
 last_update = "October 29, 2020"
 list_easy = ["apple", "river", "country", "support", "courage"]
@@ -23,6 +23,8 @@ word_display = ""
 game_over = False
 guessed_letters = []
 guessed_letters_str = ""
+win_count = 0
+loss_count = 0
 
 
 # Define functions
@@ -61,8 +63,8 @@ def append_guessed_letters(letter_given, guessed_letters1):  # Append current gu
     return guessed_letters_str1
 
 
-# Show title screen once
-input(f'''
+# Show title screen and ask for player name
+player_name = input(f'''
 =====================================
         WELCOME to HANGMAN {app_version}
 -------------------------------------
@@ -77,7 +79,7 @@ input(f'''
           Coded by Kodegero
 =====================================
 
-Press Enter to start game...''')
+Please type your name: ''')
 
 # Main game loop
 while not game_over:
@@ -112,6 +114,9 @@ while not game_over:
 ========================================>>
 == HANGMAN 1.0  by Kodegero ============>>
 ========================================>>
+Player: {player_name}
+Win: {win_count}    <<||>>     Loss: {loss_count}
+
 
 What is the hidden word?
 **************************
@@ -168,6 +173,10 @@ Guess a Letter: ''')
                 print('''
                 GAME OVER...
                 Sorry, You have used all your chances.''')
+
+                # Add point to loss_count
+                loss_count += 1
+
                 break
 
     else:
@@ -178,6 +187,9 @@ Guess a Letter: ''')
         The word is: {word_display}
 
         You guessed it right.''')
+
+        # Add point to win_count
+        win_count += 1
 
     # Ask user if wants to play again
     play_again = input("Do you want to play again? Y or N: ")
