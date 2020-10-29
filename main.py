@@ -1,19 +1,19 @@
-#********************************************************#
+# ********************************************************#
 #  Project Title:    HANGMAN                             #
-#  App Version:      1.07                                #
+#  App Version:      1.08                                #
 #  Coder:            Jim "Kodegero" Arriesgado           #
 #  Update Started:   October 29, 2020                    #
 #  Update Finished:  October 29, 2020                    #
-#********************************************************#
+# ********************************************************#
 
 # UPDATE NOTES:
-# Add a feature, set player name and win-loss score
+# Enhance UX, add image display for win and loss
 
 # Import Modules
 import random
 
 # Declare variables needed
-app_version = "1.07"
+app_version = "1.08"
 proj_started = "October 23, 2020"
 last_update = "October 29, 2020"
 list_easy = ["apple", "river", "country", "support", "courage"]
@@ -170,9 +170,26 @@ Guess a Letter: ''')
 
             # Check if att_count equals to zero
             if att_count == 0:
-                print('''
-                GAME OVER...
-                Sorry, You have used all your chances.''')
+                print(f'''
+                =======
+                ||    |
+                ||   (_)
+                ||   /|\\
+                ||   / \\
+                ||
+                ||
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               OH NO!!!
+========================================
+You failed to save the man from hanging.
+
+***************************************=>
+* The hidden word is =>  {word_str}
+***************************************=>
+
+Player: {player_name}
+Win: {win_count}    <<||>>     Loss: {loss_count}
+''')
 
                 # Add point to loss_count
                 loss_count += 1
@@ -181,12 +198,25 @@ Guess a Letter: ''')
 
     else:
         print(f'''
-        Congratulations!
-        YOU WON...
+                 =======
+                 ||    |
+                 ||    O
+                 ||
+                 ||
+                 ||
+                 ||
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           CONGRATULATIONS!!!
+========================================
+You have saved the man from hanging.
 
-        The word is: {word_display}
+***************************************=>
+* The hidden word is =>  {word_display}
+***************************************=>
 
-        You guessed it right.''')
+Player: {player_name}
+Win: {win_count}    <<||>>     Loss: {loss_count}
+''')
 
         # Add point to win_count
         win_count += 1
